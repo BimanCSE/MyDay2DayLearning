@@ -32,5 +32,34 @@ In LLM, streaming means model start sending tokens (words) as soon as they gener
 - When and how to use frameworks: There are many framework that make agentic systems easiear to implement, The Claude Agent SDK, Strands Agents SDK by AWS, Rivet a drag and drop GUP LLM workflow , Vellum another GUI tools for building agent. 
 
 #### Building Block: The Augmented LLM :Th ebasic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools and memory. Our current models can actively use these capabilities - generating their own search queries, selecting appropriate tools, and determining what information to retain. 
-![alt text](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75)
-#### Workflow : Prompt chaining : Prompt chaining decomposes a tasks into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks 
+![The augmented LLM](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75)
+#### Workflow : Prompt chaining : Prompt chaining decomposes a tasks into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks on any intermediate steps to ensure that the process is still on track. This workflow is ideal for situations where the tasks can be easily and cleanly decompoesed into fixed subtasks.The main goal is to trade off latency for higher accuracy, by making each LLM call on easier task.Example , marketing copy, then translating into a different language. Another example , Write a outline of the document and checking them the outline meets certain criteria, then writing the document based on the outline.
+![The prompt chaining workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F7418719e3dab222dccb379b8879e1dc08ad34c78-2401x1000.png&w=3840&q=75)
+
+#### Workflow : Routing 
+Routing classifies an input and directs it to a specialized followup tasks. This workflow allows for seperation of concerns, and building more specialized prompts. Without this workflow , optimizing for one kind of input can hurt performance on other inputs. 
+- Routing works well for complex tasks where there are distict categories that are better handled separately, and where classification can be handled accurately.
+- Exmaple : Directing different types of customer service queries ( general questions, refund requests, technical support) into different downstream processes , prompts and tools. 
+![The routing workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F5c0c0e9fe4def0b584c04d37849941da55e5e71c-2401x1000.png&w=3840&q=75)
+
+#### Workflow : Parallelization 
+LLMs can sometimes work simultaneously on a tasks and have their output aggregated programmatically. Sectioning: Breaking a task into independent subtasks run in parallel. Voting: Running the same tasks multiple times to get diverse outputs.
+- Paralleniztion is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results. For complex tasks with multiple considerations,LLM generally perform better when each consideration is handled by a separate LLM call, alowing focused attention on each specific aspect.
+- Sectioning : - Implementing guardrails where one model instance processes user queries while another screens them for inappropriate content or requests. This tends to perform better than having the same LLM call handle both guardrails and the core response. 
+    - Automating vals for evaluating LLM performance, where each LLM call evaluates a different aspect of the model's performance on a given prompt. 
+- Voting : Reviewing a piece of code for vulnerabilities, where several different prompts review and flag the code if they find a problem. Another one , Evaluating whether a given piece of content is inappropriate, with multiple prompts evaluating different aspects or requiring different vote thresholds to balance false positives and negatives.
+![The parallelization workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F406bb032ca007fd1624f261af717d70e6ca86286-2401x1000.png&w=3840&q=75)
+
+#### Workflow : Orchestrator - workers :
+In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results. 
+- This workflow is well-suited for complex tasks where you can't predict the subtasks needed.( in coding, for example, the number of files that need to be changed and the nature of the change in each file likely depend on the task). Whereas it's topographically similar , the key difference from parallelization is its flexibility - subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.
+- For example , Search tasks that involve gathering and analyzing information from multiple sources for possible relevant information. 
+![The orchestrator-workers workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F8985fc683fae4780fb34eab1365ab78c7e51bc8e-2401x1000.png&w=3840&q=75)
+
+
+#### Workflow : Evaluator-optimizer 
+IN the evaluator-optimizer workflow, one LLM call generates the response while another proves evaluation and feedback in a loop.This workflow effective when we have clear evaluation criteria and when interactive refinement proves measurable value. 
+- Example, Literary translation where there are nuances that the translator LLM might not capture initalyly, but where an evaluator LLM can provide useful critiques. 
+- Another Example, complex search tasks that require multiple rounds of searching and analysis to gather comprehensive information, where the evaluator decides whether further searches are warranted. 
+![The evaluator-optimizer workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F14f51e6406ccb29e695da48b17017e899a6119c7-2401x1000.png&w=3840&q=75)
+
