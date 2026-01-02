@@ -21,3 +21,16 @@ In LLM, streaming means model start sending tokens (words) as soon as they gener
 - LangSmith is a unified observability and evaluation platform where developer can debug , test and monitor AI app performance. 
 - The following things are able to traced by the LangSmith - Input, output, all intermediate states output, latency, token usage, cost , error, Tags, Metadata and feedback. 
 
+
+### LangChain Vs Langgraph Vs LangSmith
+
+#### Notes : Building Effective Agent from Anthropic (SC : https://www.anthropic.com/engineering/building-effective-agents):
+
+- What are Agents : Agent can be defined in several ways , some customers define agent as a fully autonomous system that operate independently over extended periods, using various tools to accomplish complex tasks. Others use the term to describe more prescriptive implementation that follow predefined workflows. At Anthropic, we categorize all these variations as Agentic system, but draw an important architectural distinction between workflows and agents. Worlflows are systems where LLM and tolls are orchestrated through predefined code paths.
+    - Agents on the other hand, are systems where LLMS dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks. 
+- When ( and when not) to use agents : Recommended only find the simple solution possible and increasing the complexity when needed. When more complexity is warranted, workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale.
+- When and how to use frameworks: There are many framework that make agentic systems easiear to implement, The Claude Agent SDK, Strands Agents SDK by AWS, Rivet a drag and drop GUP LLM workflow , Vellum another GUI tools for building agent. 
+
+#### Building Block: The Augmented LLM :Th ebasic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools and memory. Our current models can actively use these capabilities - generating their own search queries, selecting appropriate tools, and determining what information to retain. 
+![alt text](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75)
+#### Workflow : Prompt chaining : Prompt chaining decomposes a tasks into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks 
