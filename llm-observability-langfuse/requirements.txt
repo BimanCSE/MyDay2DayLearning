@@ -1,0 +1,4 @@
+langfuse
+langchain-openai
+dotenv
+langchain
