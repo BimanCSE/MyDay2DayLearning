@@ -1,0 +1,3 @@
+traceloop-sdk
+opentelemetry-distro
+opentelemetry-exporter-otlp
