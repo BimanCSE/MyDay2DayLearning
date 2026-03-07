@@ -1,0 +1,9 @@
+### important concepts
+
+RAG : Retrieval Augmented Generation
+
+1. The first step we generally do is data ingestion.
+2. split this data into smaller chaunks. we called this data transformation.
+3. convert the text into vectrors.
+4. store these generated vactrors in a efficient way so that we can efficiently retrieve.
+5.
