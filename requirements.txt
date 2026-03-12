@@ -2,3 +2,10 @@ traceloop-sdk
 opentelemetry-distro
 opentelemetry-exporter-otlp
 chromadb
+fiass-cpu
+fastapi
+langchain
+langchain-openai
+langchain-community
+langchain-core
+langchain-text-splitters
